@@ -9,18 +9,21 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy
 from numpy import *
 from heapq import *
+import re
 
 def getQuerySkuDict(filename):
     inputFile = open(filename)
     reader = csv.reader(inputFile)
     querySkuDict = defaultdict(lambda: defaultdict(int))
+    queryStat = defaultdict(int)
     par = Parser()
     for row in reader:
     	query = row[3]
     	query = preprocessQuery(query, par)
     	sku = row[1]
+        queryStat[query] += 1
     	querySkuDict[query][sku] += 1
-    return querySkuDict	
+    return querySkuDict, queryStat
 
 def getProductInfo():
     productTree = ET.parse('../data/small_product_data.xml')
@@ -44,10 +47,28 @@ def getDatumInfo(testFileName):
         queries.append(row[3])
     return datum, queries
 
+def getQueryStats():
+    trainFileName = '../data/psudo_train2.csv'
+    querySkuDict, queryStat = getQuerySkuDict(trainFileName)
+    sortedQuery = sorted(queryStat.items(), key=operator.itemgetter(1), reverse=True)
+    top100 = sortedQuery[0:100]
+    output = open('../data/result/top100query.txt','w')
+    for queryDict in top100:
+        query = queryDict[0]
+        query = re.sub("\s","-",query)
+        count = queryDict[1]
+        query += " "
+        outputStr = query * int(count*1.0 / 10)
+        output.write(outputStr)
+    output.close()
+
+
+
+
 #if __name__ == "__main__":
 trainFileName = '../data/psudo_train2.csv'
 testFileName = '../data/psudo_test2.csv'
-querySkuDict = getQuerySkuDict(trainFileName)
+querySkuDict, queryStat = getQuerySkuDict(trainFileName)
 
 productSkus, productDescpt = getProductInfo()
 datum, queries = getDatumInfo(testFileName)

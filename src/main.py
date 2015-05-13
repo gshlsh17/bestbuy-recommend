@@ -63,6 +63,10 @@ numQuery = len(datum)
 """
 for each query, I get the top five sku with product(tfidf(product), tfidf(query))
 """
+contentOutput = open('../data/result/content.csv','w')
+collabOutput = open('../data/result/collab.csv','w')
+writer1 = csv.writer(contentOutput)
+writer2 = csv.writer(collabOutput)
 total = 0.0
 correct = 0.0
 tmp = 0.0
@@ -88,31 +92,12 @@ for x in range(0, numQuery):
         for sku in sorted( querySkuDict[query], key=querySkuDict[query].get, reverse = True ):
             skus2.append(sku)
         skus2 = skus2[0:5]
+    writer1.writerow(skus1)
+    writer2.writerow(skus2)
     if trueSku in skus2:
         correct += 1.0 / (skus2.index(trueSku) + 1)
     if trueSku in skus1:
         tmp += 1.0 / (skus1.index(trueSku) + 1)
-
-
-
-
-testFile = open(testFileName)
-reader = csv.reader(testFile)
-total = 0.0
-correct = 0.0
-for row in reader:
-	skus = []
-	query = row[3] # need to modifed for true test file
-	total += 1
-	if query in querySkuDict:
-		for sku in sorted( querySkuDict[query], key=querySkuDict[query].get, reverse = True ):
-			skus.append(sku)
-		skus = skus[0:5]
-		if row[1] in skus:
-			correct += 1
-
-
-
 
 
 

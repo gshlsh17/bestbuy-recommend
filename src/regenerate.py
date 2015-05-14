@@ -12,10 +12,11 @@ In this script, we reorder query and replace mis-spelled words. Then, write into
 The query in new file is splited by space, stemmed, corrected, and reordered
 """
 
-queryFreq = getQueryFrequency()
-spellDict = spellChecker(queryFreq)
-regenerateFile('../data/train.csv', '../data/modified_train.csv', 3, spellDict)
-regenerateFile('../data/test.csv', '../data/modified_test.csv', 2, spellDict)
+if __name__ == "__main__":
+	queryFreq = getQueryFrequency()
+	spellDict = spellChecker(queryFreq)
+	regenerateFile('../data/train.csv', '../data/modified_train.csv', 3, spellDict)
+	regenerateFile('../data/test.csv', '../data/modified_test.csv', 2, spellDict)
 
 # regenerate 
 def regenerateFile(inputName, outputName, idx, spellDict):

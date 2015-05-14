@@ -2,6 +2,7 @@ import directory
 import csv
 import copy
 import codecs
+import sys
 
 
 
@@ -28,11 +29,9 @@ def analyze(test_file = directory.TESTING_DATA_FILE, result_file = directory.TES
     		
 
 
-	print "len of real_skus: %d" %len(real_skus)
-	print "len of predict_skus: %d" %len(predict_skus)
+	# print "len of real_skus: %d" %len(real_skus)
+	# print "len of predict_skus: %d" %len(predict_skus)
 	for i in range(len(real_skus)):
-		print "i: %d" %i
-		print "len(predict_skus[i]): %d" %len(predict_skus[i])
 		for val in predict_skus[i]:
 			if real_skus[i] == int(val):
 				score += 1.0
@@ -42,11 +41,11 @@ def analyze(test_file = directory.TESTING_DATA_FILE, result_file = directory.TES
 	
 
 
-	print "score: %f" %(score/len(real_skus))
-	print "map_score: %f" %((map_score)/len(real_skus))
+	print "precision: %f" %(score/len(real_skus))
+	print "score:     %f" %((map_score)/len(real_skus))
 
 
 
 
 if __name__ == '__main__':
-    analyze()
+    analyze(sys.argv[1], sys.argv[2])

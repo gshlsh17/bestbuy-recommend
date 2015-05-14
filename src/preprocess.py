@@ -3,6 +3,7 @@ from collections import defaultdict
 from Parser import *
 import re
 from dtw import dtw
+import operator
 
 def customDist(x, y):
 	if x == y:

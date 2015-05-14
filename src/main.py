@@ -113,8 +113,8 @@ for x in range(0, numQuery):
         for sku in sorted( querySkuDict[query], key=querySkuDict[query].get, reverse = True ):
             skus2.append(sku)
         skus2 = skus2[0:5]
-    writer1.writerow(skus1)
-    writer2.writerow(skus2)
+    #writer1.writerow(skus1)
+    #writer2.writerow(skus2)
     if trueSku in skus2:
         correct += 1.0 / (skus2.index(trueSku) + 1)
     if trueSku in skus1:

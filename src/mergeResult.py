@@ -3,7 +3,7 @@ from collections import defaultdict
 import operator
 
 if __name__ == "__main__":
-	filenames = ['../data/result/collab.csv', '../data/result/predictionsSVC.csv', '../data/result/content.csv']
+	filenames = ['../data/result/frequency.csv', '../data/result/predictionsSVC.csv', '../data/result/content.csv']
 	results = [[],[],[]]
 	for i in xrange(3):
 		with open(filenames[i], 'r') as f:

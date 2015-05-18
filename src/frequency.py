@@ -85,12 +85,14 @@ if __name__ == "__main__":
     for each query, I get the top five sku with product(tfidf(product), tfidf(query))
     """
     contentOutput = open('../data/result/content.csv','w')
-    collabOutput = open('../data/result/collab.csv','w')
+    collabOutput = open('../data/result/frequency.csv','w')
     writer1 = csv.writer(contentOutput)
     writer2 = csv.writer(collabOutput)
     total = 0.0
     correct = 0.0
+    correct1 = 0.0
     tmp = 0.0
+    tmp1 = 0.0
     for x in range(0, numQuery):
         total += 1
         trueSku = datum[x][1]
@@ -115,11 +117,14 @@ if __name__ == "__main__":
             skus2 = skus2[0:5]
         writer1.writerow(skus1)
         writer2.writerow(skus2)
+        if trueSku in skus1:
+            correct1 += 1.0 / (skus1.index(trueSku) + 1)
+            tmp1 += 1
         if trueSku in skus2:
             correct += 1.0 / (skus2.index(trueSku) + 1)
-        if trueSku in skus2:
             tmp += 1
-    print "content-based score: " + str(tmp/total)
+
+    print "frequence precision " + str(tmp/total)
     print "frequence score:     " + str(correct / total)
 
 
